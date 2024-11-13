@@ -1,11 +1,12 @@
 import React from 'react';
 import { Box, Button, Flex, Heading, useBreakpointValue } from '@chakra-ui/react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
-// Import your components for Home, Profile, and Settings
-import Home from './Home';      // Assume these are components you already created
-import Profile from './Profile'; 
+// Import components for Home, Profile, Settings, and ProductsTable
+import Home from './Home';
+import Profile from './Profile';
 import Settings from './Settings';
+import ProductsTable from './ProductsTable';  // Import Products Table
 
 interface DashboardProps {
   onLogout: () => void;
@@ -13,8 +14,9 @@ interface DashboardProps {
 
 const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
   const location = useLocation(); // Get current location/path
+  const navigate = useNavigate(); // For navigation after logout
   const isMobile = useBreakpointValue({ base: true, md: false }); // Determine if the screen size is mobile
-  
+
   // Conditionally render based on the current route
   const renderContent = () => {
     switch (location.pathname) {
@@ -24,6 +26,8 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
         return <Profile />;
       case '/dashboard/settings':
         return <Settings />;
+      case '/dashboard/products': // Render Products table on '/dashboard/products'
+        return <ProductsTable />;
       default:
         return <div>Welcome to your Dashboard! Select a page from the navbar.</div>;
     }
@@ -37,14 +41,14 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  // Function to determine if a route is active
-  const isActiveRoute = (route: string) => {
-    return location.pathname === route ? 'teal.400' : 'white';
+  // Handle logout
+  const handleLogout = () => {
+    onLogout();
+    navigate('/'); // Navigate to homepage after logout (or to login page)
   };
 
   return (
     <Box minHeight="100vh" bg="gray.50">
-      {/* Navbar Section */}
       <Flex
         as="nav"
         bg="teal.600"
@@ -57,151 +61,82 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
         zIndex={1}
         boxShadow="sm"
       >
-        {/* Dashboard Title */}
         <Heading as="h1" size="lg">
           Dashboard
         </Heading>
 
-        {/* Menu Button for Mobile Screens */}
-        {isMobile && (
-          <Button
-            color="white"
-            variant="ghost"
-            onClick={toggleMenu}
-            _hover={{ bg: 'teal.500' }}
-          >
-            Menu
-          </Button>
-        )}
-
-        {/* Navbar Links for Desktop Screens */}
+        {/* Desktop Navbar Links */}
         {!isMobile && (
           <Box>
             <Link to="/dashboard/home">
-              <Button
-                color={isActiveRoute('/dashboard/home')}
-                variant="ghost"
-                _hover={{ bg: 'teal.500' }}
-                mr={4}
-              >
-                Home
-              </Button>
+              <Button color="white" variant="ghost" _hover={{ bg: 'teal.500' }} mr={4}>Home</Button>
             </Link>
             <Link to="/dashboard/profile">
-              <Button
-                color={isActiveRoute('/dashboard/profile')}
-                variant="ghost"
-                _hover={{ bg: 'teal.500' }}
-                mr={4}
-              >
-                Profile
-              </Button>
+              <Button color="white" variant="ghost" _hover={{ bg: 'teal.500' }} mr={4}>Profile</Button>
             </Link>
             <Link to="/dashboard/settings">
-              <Button
-                color={isActiveRoute('/dashboard/settings')}
-                variant="ghost"
-                _hover={{ bg: 'teal.500' }}
-                mr={4}
-              >
-                Settings
-              </Button>
+              <Button color="white" variant="ghost" _hover={{ bg: 'teal.500' }} mr={4}>Settings</Button>
+            </Link>
+            <Link to="/dashboard/products">
+              <Button color="white" variant="ghost" _hover={{ bg: 'teal.500' }} mr={4}>Products</Button>
             </Link>
             <Link to="/">
-              <Button
-                onClick={onLogout}
-                color="white"
-                variant="ghost"
-                _hover={{ bg: 'teal.500' }}
-              >
-                Log Out
+              <Button onClick={handleLogout} color="white" variant="ghost" _hover={{ bg: 'red.500' }}>
+                Logout
               </Button>
             </Link>
           </Box>
         )}
+
+        {/* Mobile Navbar Links (No Drawer, just use Button toggling) */}
+        {isMobile && (
+          <Button onClick={toggleMenu} color="white" variant="ghost">
+            ☰
+          </Button>
+        )}
       </Flex>
 
-      {/* Mobile Menu for Small Screens */}
+      {/* Mobile Menu */}
       {isMobile && isMenuOpen && (
         <Box
-          bg="teal.600"
-          color="white"
-          p={4}
-          position="absolute"
-          top={16}
+          position="fixed"
+          top={0}
           left={0}
-          right={0}
-          zIndex={1}
+          width="100%"
+          height="100%"
+          bg="rgba(0, 0, 0, 0.6)"
+          zIndex={999}
+          onClick={toggleMenu}
         >
-          <Box mb={4}>
+          <Box
+            position="absolute"
+            top={0}
+            right={0}
+            bg="white"
+            width="250px"
+            height="100%"
+            boxShadow="xl"
+            p={4}
+          >
             <Link to="/dashboard/home">
-              <Button
-                color={isActiveRoute('/dashboard/home')}
-                variant="ghost"
-                _hover={{ bg: 'teal.500' }}
-                w="100%"
-                mb={2}
-              >
-                Home
-              </Button>
+              <Button w="100%" mb={2} variant="ghost" _hover={{ bg: 'teal.500' }}>Home</Button>
             </Link>
             <Link to="/dashboard/profile">
-              <Button
-                color={isActiveRoute('/dashboard/profile')}
-                variant="ghost"
-                _hover={{ bg: 'teal.500' }}
-                w="100%"
-                mb={2}
-              >
-                Profile
-              </Button>
+              <Button w="100%" mb={2} variant="ghost" _hover={{ bg: 'teal.500' }}>Profile</Button>
             </Link>
             <Link to="/dashboard/settings">
-              <Button
-                color={isActiveRoute('/dashboard/settings')}
-                variant="ghost"
-                _hover={{ bg: 'teal.500' }}
-                w="100%"
-                mb={2}
-              >
-                Settings
-              </Button>
+              <Button w="100%" mb={2} variant="ghost" _hover={{ bg: 'teal.500' }}>Settings</Button>
             </Link>
-            <Link to="/">
-              <Button
-                onClick={onLogout}
-                color="white"
-                variant="ghost"
-                _hover={{ bg: 'teal.500' }}
-                w="100%"
-              >
-                Log Out
-              </Button>
+            <Link to="/dashboard/products">
+              <Button w="100%" mb={2} variant="ghost" _hover={{ bg: 'teal.500' }}>Products</Button>
             </Link>
+            <Button w="100%" mb={2} variant="ghost" _hover={{ bg: 'red.500' }} onClick={handleLogout}>Logout</Button>
           </Box>
-          <Button
-            color="white"
-            variant="ghost"
-            onClick={toggleMenu}
-            _hover={{ bg: 'teal.500' }}
-            w="100%"
-          >
-            Close Menu
-          </Button>
         </Box>
       )}
 
-      {/* Main Content Section */}
-      <Box p={6} bg="gray.100">
-        <Heading as="h2" size="xl" mb={6}>
-          Welcome to Your Dashboard!
-        </Heading>
-
-        {/* Render the active route's content */}
-        <Box bg="white" p={5} borderRadius="md" boxShadow="md">
-          {renderContent()}
-        </Box>
-      </Box>
+      {/* Render the content based on the current route */}
+      <Box p={4}>{renderContent()}</Box>
     </Box>
   );
 };

@@ -6,6 +6,7 @@ import Home from './components/Home'; // Import the Home component
 import Profile from './components/Profile'; // Import the Profile component
 import Settings from './components/Settings'; // Import the Settings component
 import PrivateRoute from './components/PrivateRoute';
+import ProductsTable from './components/ProductsTable';
 
 // Utility function for generating token (could be in a separate file)
 const generateToken = (): string => {
@@ -40,6 +41,7 @@ const App: React.FC = () => {
             <Route path="home" element={<Home />} />
             <Route path="profile" element={<Profile />} />
             <Route path="settings" element={<Settings />} />
+            <Route path="products" element={<ProductsTable/>} />
           </Route>
         </Route>
       </Routes>
