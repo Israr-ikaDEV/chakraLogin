@@ -1,14 +1,23 @@
 import React, { useState } from 'react';
 import { Box, Button, Input, Heading, Text } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
+
 import { HiEye, HiEyeOff } from 'react-icons/hi';
+import { useNavigate } from 'react-router-dom';
+
+interface LoginFormProps {
+  onLogin: () => void; 
+}
 
 interface LoginFormData {
   email: string;
   password: string;
 }
 
-const LoginForm: React.FC = () => {
+const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) =>{
+  
+  
+  
+  
   const [formData, setFormData] = useState<LoginFormData>({
     email: '',
     password: '',
@@ -29,6 +38,7 @@ const LoginForm: React.FC = () => {
 
   // Handle form submission
   const handleSubmit = (e: React.FormEvent) => {
+   console.log('handleSubmit')
     e.preventDefault();
 
     if (!formData.email || !formData.password) {
@@ -42,7 +52,8 @@ const LoginForm: React.FC = () => {
     // Simulate login process
     setTimeout(() => {
       setIsSubmitting(false);
-      navigate('/dashboard'); // Redirect after successful login
+      onLogin(); 
+      navigate('/dashboard/');
     }, 1500);
   };
 
