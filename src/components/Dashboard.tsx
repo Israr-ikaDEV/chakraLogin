@@ -4,10 +4,14 @@ import { Link, useLocation } from 'react-router-dom';
 
 // Import your components for Home, Profile, and Settings
 import Home from './Home';      // Assume these are components you already created
-import Profile from './Profile';
+import Profile from './Profile'; 
 import Settings from './Settings';
 
-const Dashboard: React.FC = () => {
+interface DashboardProps {
+  onLogout: () => void;
+}
+
+const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
   const location = useLocation(); // Get current location/path
   const isMobile = useBreakpointValue({ base: true, md: false }); // Determine if the screen size is mobile
   
@@ -31,6 +35,11 @@ const Dashboard: React.FC = () => {
   // Toggle mobile menu
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  // Function to determine if a route is active
+  const isActiveRoute = (route: string) => {
+    return location.pathname === route ? 'teal.400' : 'white';
   };
 
   return (
@@ -70,7 +79,7 @@ const Dashboard: React.FC = () => {
           <Box>
             <Link to="/dashboard/home">
               <Button
-                color="white"
+                color={isActiveRoute('/dashboard/home')}
                 variant="ghost"
                 _hover={{ bg: 'teal.500' }}
                 mr={4}
@@ -80,7 +89,7 @@ const Dashboard: React.FC = () => {
             </Link>
             <Link to="/dashboard/profile">
               <Button
-                color="white"
+                color={isActiveRoute('/dashboard/profile')}
                 variant="ghost"
                 _hover={{ bg: 'teal.500' }}
                 mr={4}
@@ -90,7 +99,7 @@ const Dashboard: React.FC = () => {
             </Link>
             <Link to="/dashboard/settings">
               <Button
-                color="white"
+                color={isActiveRoute('/dashboard/settings')}
                 variant="ghost"
                 _hover={{ bg: 'teal.500' }}
                 mr={4}
@@ -100,6 +109,7 @@ const Dashboard: React.FC = () => {
             </Link>
             <Link to="/">
               <Button
+                onClick={onLogout}
                 color="white"
                 variant="ghost"
                 _hover={{ bg: 'teal.500' }}
@@ -126,7 +136,7 @@ const Dashboard: React.FC = () => {
           <Box mb={4}>
             <Link to="/dashboard/home">
               <Button
-                color="white"
+                color={isActiveRoute('/dashboard/home')}
                 variant="ghost"
                 _hover={{ bg: 'teal.500' }}
                 w="100%"
@@ -137,7 +147,7 @@ const Dashboard: React.FC = () => {
             </Link>
             <Link to="/dashboard/profile">
               <Button
-                color="white"
+                color={isActiveRoute('/dashboard/profile')}
                 variant="ghost"
                 _hover={{ bg: 'teal.500' }}
                 w="100%"
@@ -148,7 +158,7 @@ const Dashboard: React.FC = () => {
             </Link>
             <Link to="/dashboard/settings">
               <Button
-                color="white"
+                color={isActiveRoute('/dashboard/settings')}
                 variant="ghost"
                 _hover={{ bg: 'teal.500' }}
                 w="100%"
@@ -159,6 +169,7 @@ const Dashboard: React.FC = () => {
             </Link>
             <Link to="/">
               <Button
+                onClick={onLogout}
                 color="white"
                 variant="ghost"
                 _hover={{ bg: 'teal.500' }}
