@@ -1,50 +1,13 @@
-# React + TypeScript + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+##Key Features:
+##React and TypeScript: Built with React and TypeScript to gain hands-on experience with type safety and more structured code.
+Chakra UI: Designed the admin dashboard using Chakra UI, which helped me create a responsive and accessible user interface with ease.
+Private Routing: Implemented private routing to restrict access to pages like Profile, Settings, and Products for authenticated users only.
+Profile Page: Created a personal profile page where users can view and edit their information.
+Settings Page: Developed a settings page to allow configuration of application preferences.
+Product Management Page: Developed a CRUD table for managing product data, including features like:
+Create: Add new products.
+Read: View existing product details.
+Update: Edit product information.
+Delete: Remove products.
+Axios Integration: Used Axios to send requests to MockAPI for handling product data (CRUD operations).
+MockAPI: Utilized MockAPI to simulate a backend API that provides mock data for product management.
